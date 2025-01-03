@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.apress.prospring6</groupId>
+    <artifactId>pro-spring-6</artifactId>
+    <version>6.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!-- To generate the maven wrapper config run `mvn wrapper:wrapper` -->
+
+    <name>Pro Spring</name>
+
+    <description>This project is a collection of simple code samples. It is meant to be used together with the "Pro
+        Spring 6" book,
+        published by Apress in order to learn and practice Spring.
+    </description>
+
+    <properties>
+        <spring-boot.version>3.1.1</spring-boot.version>
+
+        <!-- Java version for non-Boot projects -->
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <!--  Java version for Boot projects-->
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.1.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
+        </dependency>
+    </dependencies>
+</project>
