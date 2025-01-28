@@ -2,7 +2,6 @@ package com.prospring.hibernate;
 
 import com.prospring.hibernate.dao.SingerDao;
 import com.prospring.hibernate.entities.Singer;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
