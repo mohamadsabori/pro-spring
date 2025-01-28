@@ -36,4 +36,11 @@ public class Instrument implements Serializable {
     public void setInstrumentId(String instrumentId) {
         this.instrumentId = instrumentId;
     }
+
+    @Override
+    public String toString() {
+        return "Instrument{" +
+                "instrumentId='" + instrumentId + '\'' +
+                '}';
+    }
 }
