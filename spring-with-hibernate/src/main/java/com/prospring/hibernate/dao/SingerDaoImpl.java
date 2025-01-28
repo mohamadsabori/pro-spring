@@ -43,7 +43,9 @@ public class SingerDaoImpl implements SingerDao {
 
     @Override
     public Singer save(Singer singer) {
-        return null;
+        sessionFactory.getCurrentSession().saveOrUpdate(singer);
+        LOGGER.info("Singer saved with id {}", singer.getId());
+        return singer;
     }
 
     @Override
