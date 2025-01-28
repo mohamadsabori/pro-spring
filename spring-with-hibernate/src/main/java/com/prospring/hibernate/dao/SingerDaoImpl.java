@@ -50,6 +50,7 @@ public class SingerDaoImpl implements SingerDao {
 
     @Override
     public void delete(Singer singer) {
-
+        sessionFactory.getCurrentSession().delete(singer);
+        LOGGER.info("Singer with id {} deleted!", singer.getId());
     }
 }
