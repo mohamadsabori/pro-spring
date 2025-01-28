@@ -13,7 +13,7 @@ import java.util.List;
 @Repository("singerDao")
 public class SingerDaoImpl implements SingerDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingerDaoImpl.class);
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     public SingerDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
