@@ -3,7 +3,11 @@ package com.prospring.hibernate.dao;
 import com.prospring.hibernate.entities.Album;
 import com.prospring.hibernate.entities.Instrument;
 import com.prospring.hibernate.entities.Singer;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -11,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Repository("singerDao")
@@ -64,6 +70,22 @@ public class SingerDaoImpl implements SingerDao {
     public void delete(Singer singer) {
         sessionFactory.getCurrentSession().delete(singer);
         LOGGER.info("Singer with id {} deleted!", singer.getId());
+    }
+
+    @Override
+    public Set<String> findAllNamesByProjection() {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Singer.class);
+        Projection fnProjection = Projections.property("firstName");
+        Projection lnProjection = Projections.property("lastName");
+
+        ProjectionList pList = Projections.projectionList();
+        pList.add(fnProjection);
+        pList.add(lnProjection);
+        criteria.setProjection(pList);
+
+        List<Object[]> projResult = criteria.list();
+        return projResult.stream().map(o -> o[0] + " " + o[1]).collect(Collectors.toSet());
+
     }
 
     @Override
