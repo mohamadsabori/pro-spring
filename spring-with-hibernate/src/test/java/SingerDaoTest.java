@@ -3,6 +3,11 @@ import com.prospring.hibernate.dao.SingerDao;
 import com.prospring.hibernate.entities.Album;
 import com.prospring.hibernate.entities.Singer;
 import jakarta.annotation.PostConstruct;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Properties;
+
 import org.hibernate.cfg.Environment;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +24,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Properties;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Testcontainers
@@ -42,7 +44,7 @@ public class SingerDaoTest {
     @DisplayName("Should return all singers")
     public void shouldReturnAll() {
         var singers = singerDao.findAll();
-        org.junit.jupiter.api.Assertions.assertEquals(3, singers.size());
+        assertEquals(3, singers.size());
         singers.forEach(s -> LOGGER.info(s.toString()));
     }
 
@@ -50,7 +52,7 @@ public class SingerDaoTest {
     @DisplayName("Should return singer by id")
     public void shouldReturnById() {
         var singer = singerDao.findById(2L);
-        org.junit.jupiter.api.Assertions.assertEquals("Ben", singer.getFirstName());
+        assertEquals("Ben", singer.getFirstName());
         LOGGER.info(singer.toString());
     }
 
@@ -80,7 +82,7 @@ public class SingerDaoTest {
         assertNotNull(singer.getId());
 
         var singers = singerDao.findWithAlbum();
-        org.junit.jupiter.api.Assertions.assertEquals(4, singers.size());
+        assertEquals(4, singers.size());
         listSingersWithAssociations(singers);
     }
 
@@ -94,7 +96,7 @@ public class SingerDaoTest {
     public void testUpdate() {
         Singer singer = singerDao.findById(5L);
         assertNotNull(singer);
-        org.junit.jupiter.api.Assertions.assertEquals("Simone", singer.getLastName());
+        assertEquals("Simone", singer.getLastName());
 
         Album album = singer.getAlbums().stream().filter(
                 a -> a.getTitle().equals("I Put a Spell on You")
@@ -106,7 +108,7 @@ public class SingerDaoTest {
         singer.removeAlbum(album);
         int version = singer.getVersion();
         var nina = singerDao.save(singer);
-        org.junit.jupiter.api.Assertions.assertEquals(version + 1, nina.getVersion());
+        assertEquals(version + 1, nina.getVersion());
         listSingersWithAssociations(singerDao.findWithAlbum());
     }
 
