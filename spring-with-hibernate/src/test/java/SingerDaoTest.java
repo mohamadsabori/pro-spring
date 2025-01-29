@@ -24,6 +24,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -129,6 +131,17 @@ public class SingerDaoTest {
     public void testNativeSQL() {
         var singer = singerDao.findAllDetails("John", "Mayer");
         assertNotNull(singer);
+    }
+
+    @Test
+    @DisplayName("The query should select the full name of all singers (firstName + lastName).")
+    public void testSingerProjection() {
+        var allSingerNames = singerDao.findAllNamesByProjection();
+        assertThat(allSingerNames, containsInAnyOrder(
+                equalTo("John Mayer"),
+                equalTo("Ben Barnes"),
+                equalTo("John Butler")
+        ));
     }
 
     private static void listSingersWithAssociations(List<Singer> singers) {
