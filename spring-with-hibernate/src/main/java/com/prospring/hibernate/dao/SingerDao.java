@@ -10,4 +10,5 @@ public interface SingerDao {
     Singer findById(Long id);
     Singer save(Singer singer);
     void delete(Singer singer);
+    Singer findAllDetails(String firstName, String lastName);
 }
