@@ -26,8 +26,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
@@ -142,6 +141,18 @@ public class SingerDaoTest {
                 equalTo("Ben Barnes"),
                 equalTo("John Butler")
         ));
+    }
+
+    @Test
+    @Sql(scripts = {"classpath:/testcontainers/stored-function.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Calling the stored Function should return correct value")
+    public void callStoredFunction() {
+        var johnName = singerDao.findFirstNameById(1L);
+        assertEquals("John", johnName);
+        Exception exception = assertThrows(NullPointerException.class, () -> singerDao.findFirstNameById(7L));
+        assertEquals("Cannot invoke \"Object.toString()\" because the return value of \"org.hibernate.query.NativeQuery.getSingleResult()\" is null",
+                exception.getMessage());
     }
 
     private static void listSingersWithAssociations(List<Singer> singers) {
