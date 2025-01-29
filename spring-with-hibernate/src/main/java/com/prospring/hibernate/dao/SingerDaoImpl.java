@@ -114,4 +114,11 @@ public class SingerDaoImpl implements SingerDao {
         }
         return singer;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public String findFirstNameById(Long id) {
+        return sessionFactory.getCurrentSession().createSQLQuery("SELECT get_first_name_by_id(?)")
+                .setParameter(1, id).getSingleResult().toString();
+    }
 }

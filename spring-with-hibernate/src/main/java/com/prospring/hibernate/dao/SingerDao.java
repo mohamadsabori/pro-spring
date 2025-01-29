@@ -11,8 +11,7 @@ public interface SingerDao {
     Singer findById(Long id);
     Singer save(Singer singer);
     void delete(Singer singer);
-
     Set<String> findAllNamesByProjection();
-
     Singer findAllDetails(String firstName, String lastName);
+    String findFirstNameById(Long id);
 }
