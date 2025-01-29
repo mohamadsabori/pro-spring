@@ -72,6 +72,7 @@ public class SingerDaoImpl implements SingerDao {
         LOGGER.info("Singer with id {} deleted!", singer.getId());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Set<String> findAllNamesByProjection() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Singer.class);
