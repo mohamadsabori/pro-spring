@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @Testcontainers
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @Sql({"classpath:testcontainers/drop-schema.sql", "classpath:testcontainers/create-schema.sql"})
@@ -75,7 +77,7 @@ public class SingerDaoTest {
         singer.addAlbum(album);
         singerDao.save(singer);
 
-        org.junit.jupiter.api.Assertions.assertNotNull(singer.getId());
+        assertNotNull(singer.getId());
 
         var singers = singerDao.findWithAlbum();
         org.junit.jupiter.api.Assertions.assertEquals(4, singers.size());
@@ -91,13 +93,13 @@ public class SingerDaoTest {
     })
     public void testUpdate() {
         Singer singer = singerDao.findById(5L);
-        org.junit.jupiter.api.Assertions.assertNotNull(singer);
+        assertNotNull(singer);
         org.junit.jupiter.api.Assertions.assertEquals("Simone", singer.getLastName());
 
         Album album = singer.getAlbums().stream().filter(
                 a -> a.getTitle().equals("I Put a Spell on You")
         ).findFirst().orElse(null);
-        org.junit.jupiter.api.Assertions.assertNotNull(album);
+        assertNotNull(album);
 
         singer.setFirstName("Eunice Kathleen");
         singer.setLastName("Waymon");
@@ -114,10 +116,17 @@ public class SingerDaoTest {
     )
     public void testDelete() {
         Singer singer = singerDao.findById(6L);
-        org.junit.jupiter.api.Assertions.assertNotNull(singer);
+        assertNotNull(singer);
 
         singerDao.delete(singer);
         listSingersWithAssociations(singerDao.findWithAlbum());
+    }
+
+    @Test
+    @DisplayName("Should select a Singer with associations via Native SQL")
+    public void testNativeSQL() {
+        var singer = singerDao.findAllDetails("John", "Mayer");
+        assertNotNull(singer);
     }
 
     private static void listSingersWithAssociations(List<Singer> singers) {
